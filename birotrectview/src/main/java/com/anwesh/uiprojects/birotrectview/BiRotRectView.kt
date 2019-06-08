@@ -144,6 +144,7 @@ class BiRotRectView(ctx : Context) : View(ctx) {
 
         fun draw(canvas : Canvas, paint : Paint) {
             canvas.drawBRRNode(i, state.scale, paint)
+            next?.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
@@ -184,6 +185,7 @@ class BiRotRectView(ctx : Context) : View(ctx) {
                 curr = curr.getNext(dir) {
                     dir *= -1
                 }
+                cb(i, scl)
             }
         }
 
@@ -209,7 +211,7 @@ class BiRotRectView(ctx : Context) : View(ctx) {
 
         fun handleTap() {
             brr.startUpdating {
-                animator.stop()
+                animator.start()
             }
         }
     }
