@@ -33,3 +33,29 @@ fun Float.mirrorValue(a : Int, b : Int) : Float {
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float {
     return mirrorValue(a, b) * dir * scGap
 }
+
+fun Canvas.drawBRRNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    paint.color = foreColor
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    paint.strokeCap = Paint.Cap.ROUND
+    var rotDeg : Float = 0f
+    save()
+    translate(w / 2, gap * (i + 1))
+    drawRect(RectF(-size, -size * sc2.divideScale(1, 2), size, 0f), paint)
+    rotate(90f * sc2.divideScale(0, 2))
+    drawLine(0f, 0f, 0f, -size, paint)
+    for (j in 0..(lines - 1)) {
+        rotDeg += 90f * sc1.divideScale(j, lines)
+        save()
+        rotate(rotDeg)
+        drawLine(0f, 0f, 0f, -size, paint)
+        restore()
+    }
+    restore()
+}
