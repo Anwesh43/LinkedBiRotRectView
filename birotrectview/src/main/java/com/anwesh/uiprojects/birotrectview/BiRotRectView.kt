@@ -213,4 +213,12 @@ class BiRotRectView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : BiRotRectView {
+            val view : BiRotRectView = BiRotRectView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
