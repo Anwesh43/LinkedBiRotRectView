@@ -166,6 +166,28 @@ class BiRotRectView(ctx : Context) : View(ctx) {
             cb()
             return this
         }
+    }
 
+    data class BiRotRect(var i : Int) {
+
+        private val root : BRRNode = BRRNode(0)
+        private var curr : BRRNode = root
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
     }
 }
