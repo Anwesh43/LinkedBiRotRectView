@@ -190,4 +190,26 @@ class BiRotRectView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiRotRectView) {
+
+        private val animator : Animator = Animator(view)
+        private val brr : BiRotRect = BiRotRect(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            brr.draw(canvas, paint)
+            animator.animate {
+                brr.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            brr.startUpdating {
+                animator.stop()
+            }
+        }
+    }
 }
